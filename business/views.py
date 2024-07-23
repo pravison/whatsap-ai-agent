@@ -9,11 +9,6 @@ import json
 def index(request):
     return render(request, 'index.html')
 
-def send(request):
-    phoneNumber= "0740562740"
-    message= "how a you pravison"
-    ans = functions.sendWhatsappMessage(phoneNumber, message)
-    return ans
 
 @crsf_exempt
 def whatsappWebhook(request):
