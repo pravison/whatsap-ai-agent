@@ -12,6 +12,6 @@ def sendWhatsappMessage(phoneNumber, message):
         }
     response = requests.post(settings.WHATSAPP_URL, headers=headers, json=payload)
     ans = response.json()
-    return ans
+    return ''
 
 
