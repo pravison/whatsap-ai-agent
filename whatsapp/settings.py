@@ -149,3 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+WHATSAPP_URL = 'https://graph.facebook.com/v20.0/404978859357445/messages'
+
+WHATSAPP_TOKEN = 'Bearer EAAGhSgHT50cBO89mTlaFqbMg4Oo8CfpQZCJXwgPcOtXtrlU5VBCobvBSFZA3BWnnGjtJruojp5j9td3DgSMWVQJWOy2IUeLUvBWBtmb810nzaW4odVBARv7Few2XA71IwJdLs6HcmG7D0kZCeUrIOqB99rMCmtCdht8MxxI7Gk9hVlroO9qDPPfYw3zY239mrUk7JcNNDyfManHiwYZD'
