@@ -1,6 +1,6 @@
 from django.shortcuts import render 
 from django.http import HttpResponse
-from django.views.decorators.csrf import crsf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from . import functions
 import json
 
@@ -10,7 +10,7 @@ def index(request):
     return render(request, 'index.html')
 
 
-@crsf_exempt
+@csrf_exempt
 def whatsappWebhook(request):
     if request.method == "GET":
         VERIFY_TOKEN = "3611bd62-b967-4c49-8817-fadd7a6eea2c"
