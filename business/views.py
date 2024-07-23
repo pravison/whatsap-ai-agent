@@ -25,5 +25,6 @@ def whatsappWebhook(request):
         
     if request.method == 'POST':
         data = json.loads(request.body)
+        print(data)
         return  HttpResponse('success', status=403)
         
