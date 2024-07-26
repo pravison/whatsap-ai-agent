@@ -5,7 +5,7 @@ from .functions import sendWhatsappMessage, handleWhatsappCall
 import json
 
 from concurrent.futures import ThreadPoolExecutor
-executor = ThreadPoolExecutor(5)
+executor = ThreadPoolExecutor(1)
 
 # Create your views here.
 
