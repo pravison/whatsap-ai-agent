@@ -1,13 +1,14 @@
 from django.shortcuts import render 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .functions import sendWhatsappMessage
+from .functions import handleWhatsappCall
 import json
 
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
+
 
 
 @csrf_exempt
@@ -39,9 +40,11 @@ def whatsappWebhook(request):
                         timestamp = entry['changes'][0]['value']['messages'][0]['timestamp']
                         text = entry['changes'][0]['value']['messages'][0]['text']['body']
 
-                        phoneNumber = '254740562740'
-                        message = 'RE {} was received'.format(text)
-                        sendWhatsappMessage(phoneNumber, message)
+                        handleWhatsappCall(fromId , text )
+                        #executor.submit( handleWhatsappCall, fromId , text)
+                        # phoneNumber = '254740562740'
+                        # message = 'RE {} was received'.format(text)
+                        # sendWhatsappMessage(phoneNumber, message)
                         return ''
                 except:
                     pass
