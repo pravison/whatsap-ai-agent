@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from .functions import sendWhatsappMessage, handleWhatsappCall
 import json
 
+from concurrent.futures import ThreadPoolExecutor
+executor = ThreadPoolExecutor(5)
+
 # Create your views here.
 
 def index(request):
@@ -41,10 +44,9 @@ def whatsappWebhook(request):
                         text = entry['changes'][0]['value']['messages'][0]['text']['body']
 
                         #handleWhatsappCall(fromId , text )
-                        #executor.submit( handleWhatsappCall, fromId , text)
-                        phoneNumber = '254740562740'
-                        message = 'RE {} was received'.format(text)
-                        sendWhatsappMessage(phoneNumber, message)
+                        executor.submit( handleWhatsappCall, fromId , text)
+                        # message = 'RE {} was received'.format(text)
+                        # sendWhatsappMessage(fromId, message)
                         return ''
                 except:
                     pass

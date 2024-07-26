@@ -6,12 +6,12 @@ import json
 
 openai.api_key =settings.OPENAI_API_KEY
 
-def sendWhatsappMessage(phoneNumber, message):
+def sendWhatsappMessage(fromId, message):
     headers = {"Authorization" : settings.WHATSAPP_TOKEN}
     payload = {
         "messaging_product": "whatsapp",
         "recipient_type" : "individual",
-        "to": phoneNumber,
+        "to": fromId,
         "type":"text",
         "text":{"body": message}
         }
@@ -42,5 +42,5 @@ def makeAnOpenaiFunctionCall(text):
 #bring it all together 
 #lets define the function thart talk to webhook
 def handleWhatsappCall(fromId , text ):
-    answer = makeAnOpenaiFunctionCall(text)
-    sendWhatsappMessage(fromId, answer)
+    message = makeAnOpenaiFunctionCall(text)
+    sendWhatsappMessage(fromId, message)
