@@ -5,7 +5,7 @@ from .functions import sendWhatsappMessage, handleWhatsappCall
 import json
 
 from concurrent.futures import ThreadPoolExecutor
-executor = ThreadPoolExecutor(1)
+executor = ThreadPoolExecutor(10)
 
 # Create your views here.
 
@@ -44,10 +44,9 @@ def whatsappWebhook(request):
                         text = entry['changes'][0]['value']['messages'][0]['text']['body']
 
                         #handleWhatsappCall(fromId , text )
-                        executor.submit( handleWhatsappCall, fromId , text)
-                        # message = 'RE {} was received'.format(text)
-                        # sendWhatsappMessage(fromId, message)
-                        return ''
+                        # executor.submit( handleWhatsappCall, fromId , text)
+                        message = '{}'.format(text)
+                        sendWhatsappMessage(fromId, message)
                 except:
                     pass
 

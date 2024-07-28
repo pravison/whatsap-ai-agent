@@ -44,4 +44,4 @@ def makeAnOpenaiFunctionCall(text):
 def handleWhatsappCall(fromId , text ):
     message = makeAnOpenaiFunctionCall(text)
     sendWhatsappMessage(fromId, message)
-    return ''
+    
