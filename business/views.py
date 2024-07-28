@@ -84,11 +84,11 @@ def whatsappWebhook(request):
                         if messages:
                             fromId = messages[0].get('from')
                             text = messages[0].get('text', {}).get('body')
-                            message_id = messages[0].get('id')
+                            message_id = messages[0].get('text', {}).get('id')
 
                             # Process the message only if it hasn't been processed before
                             if message_id not in processed_message_ids:
-                                # sendWhatsappMessage(fromId, f'🧠 working on it ...')
+                                sendWhatsappMessage(fromId, message_id)
                                 handleWhatsappCall(fromId , text)
                                 break
                             break
