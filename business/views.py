@@ -88,8 +88,8 @@ def whatsappWebhook(request):
 
                             # Process the message only if it hasn't been processed before
                             if message_id not in processed_message_ids:
-                                sendWhatsappMessage(fromId, text)
-                                # handleWhatsappCall(fromId , text)
+                                # sendWhatsappMessage(fromId, text)
+                                handleWhatsappCall(fromId , text)
                                 break
                             break
             except Exception as e:
