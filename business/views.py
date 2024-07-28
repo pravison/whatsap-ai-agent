@@ -88,8 +88,8 @@ def whatsappWebhook(request):
                             text = messages[0].get('text', {}).get('body')
 
                             # Send the response once per incoming message
-                            message = '{}'.format(text)
-                            sendWhatsappMessage(fromId, message)
+                            sendWhatsappMessage(fromId, f'AI 🧠 is working on it ...')
+                            executor.submit( handleWhatsappCall, fromId , text)
                             break
             except Exception as e:
                 print(f"Error processing webhook data: {e}")
