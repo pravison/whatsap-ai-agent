@@ -16,7 +16,7 @@ def sendWhatsappMessage(fromId, message):
         "text":{"body": message}
         }
     requests.post(settings.WHATSAPP_URL, headers=headers, json=payload)
-    return True
+    return ''
 
 
 def makeAnOpenaiFunctionCall(text):
