@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .functions import sendWhatsappMessage, handleWhatsappCall
 import json
-from django.views.decorators.http import require_POST
 
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(10)
@@ -55,7 +54,6 @@ def index(request):
 #         return  HttpResponse('success', status=403)
         
 @csrf_exempt
-@require_POST
 def whatsappWebhook(request):
     if request.method == "GET":
         VERIFY_TOKEN = "3611bd62-b967-4c49-8817-fadd7a6eea2c"
@@ -90,9 +88,10 @@ def whatsappWebhook(request):
 
                             # Process the message only if it hasn't been processed before
                             if message_id not in processed_message_ids:
-                                sendWhatsappMessage(fromId, f'🧠 working on it ...')
+                                # sendWhatsappMessage(fromId, f'🧠 working on it ...')
                                 handleWhatsappCall(fromId , text)
                                 break
+                            break
             except Exception as e:
                 print(f"Error processing webhook data: {e}")
                 return HttpResponse('error', status=500)
