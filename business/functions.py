@@ -43,8 +43,8 @@ def sendWhatsappMessage(fromId, message):
 
 #bring it all together 
 #lets define the function thart talk to webhook
-def handleWhatsappCall(fromId , text ):
-    message = get_ai_response(text)
+def handleWhatsappCall(fromId, text):
+    message = get_ai_response(fromId, text)
     sendWhatsappMessage(fromId, message)
     
 
