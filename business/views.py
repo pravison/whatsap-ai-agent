@@ -45,8 +45,8 @@ def whatsappWebhook(request):
 
                         #handleWhatsappCall(fromId , text )
                         # executor.submit( handleWhatsappCall, fromId , text)
-                        message = '{}'.format(text)
-                        sendWhatsappMessage(fromId, message)
+                       
+                        sendWhatsappMessage(fromId, f'what is it')
                 except:
                     pass
 
