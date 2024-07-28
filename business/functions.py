@@ -4,6 +4,7 @@ from django.conf import settings
 import openai
 import json
 
+
 openai.api_key =settings.OPENAI_API_KEY
 
 def sendWhatsappMessage(fromId, message):

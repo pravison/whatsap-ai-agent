@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .functions import sendWhatsappMessage, handleWhatsappCall
 import json
+from django.views.decorators.http import require_POST
 
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(10)
@@ -15,6 +16,7 @@ def index(request):
 
 
 @csrf_exempt
+@require_POST
 def whatsappWebhook(request):
     if request.method == "GET":
         VERIFY_TOKEN = "3611bd62-b967-4c49-8817-fadd7a6eea2c"
