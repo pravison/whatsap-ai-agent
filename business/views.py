@@ -43,10 +43,10 @@ def whatsappWebhook(request):
                         timestamp = entry['changes'][0]['value']['messages'][0]['timestamp']
                         text = entry['changes'][0]['value']['messages'][0]['text']['body']
 
-                        #handleWhatsappCall(fromId , text )
-                        # executor.submit( handleWhatsappCall, fromId , text)
+                        sendWhatsappMessage(fromId, f'AI is working on it ...')
+                        executor.submit( handleWhatsappCall, fromId , text)
                        
-                        sendWhatsappMessage(fromId, f'what is it')
+                        
                 except:
                     pass
 
