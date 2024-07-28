@@ -47,6 +47,8 @@ def whatsappWebhook(request):
 
                         sendWhatsappMessage(fromId, f'AI is working on it ...')
                         executor.submit( handleWhatsappCall, fromId , text)
+                    return ''
+                
                        
                         
                 except:
