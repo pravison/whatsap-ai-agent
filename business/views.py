@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(10)
 
-# Create your views here.
+processed_message_ids = set()
 
 def index(request):
     return render(request, 'index.html')
@@ -86,11 +86,13 @@ def whatsappWebhook(request):
                         if messages:
                             fromId = messages[0].get('from')
                             text = messages[0].get('text', {}).get('body')
+                            message_id = messages[0].get('id')
 
-                            # Send the response once per incoming message
-                            sendWhatsappMessage(fromId, f'AI 🧠 is working on it ...')
-                            executor.submit( handleWhatsappCall, fromId , text)
-                            break
+                            # Process the message only if it hasn't been processed before
+                            if message_id not in processed_message_ids:
+                                sendWhatsappMessage(fromId, f'🧠 working on it ...')
+                                handleWhatsappCall(fromId , text)
+                                break
             except Exception as e:
                 print(f"Error processing webhook data: {e}")
                 return HttpResponse('error', status=500)
