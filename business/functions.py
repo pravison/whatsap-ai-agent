@@ -49,12 +49,12 @@ def handleWhatsappCall(fromId, text):
     
 
 
-conversations = {}
+conversations = []
 
-def get_ai_response(fromId, text):
+def get_ai_response(question):
 
-    if fromId not in conversations:
-        conversations[fromId] = []
+    # if fromId not in conversations:
+    #     conversations[fromId] = []
 
     messages = [
         {
@@ -99,7 +99,7 @@ def get_ai_response(fromId, text):
         }
     ]
 
-    for message in conversations[fromId]:
+    for message in conversations:
         if "assistant" in message:
             messages.append({
                 "role": "assistant",
@@ -110,12 +110,12 @@ def get_ai_response(fromId, text):
                 "role": "user",
                 "content": message["user"]
             })
-    question = {}
-    question["role"]='user'
-    question["content"]= text
+    # question = {}
+    # question["role"]='user'
+    # question["content"]= text
     messages.append(question)
 
-    conversations[fromId].append({
+    conversations.append({
         "user": question
     })
 
@@ -125,7 +125,7 @@ def get_ai_response(fromId, text):
         messages=messages
     )
     answer= response['choices'][0]['message']['content']
-    conversations[fromId].append({
+    conversations.append({
             "assistant": answer
         })
     return answer
