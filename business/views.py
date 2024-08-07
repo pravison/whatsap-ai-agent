@@ -1,8 +1,9 @@
-from django.shortcuts import render 
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .functions import sendWhatsappMessage, handleWhatsappCall
+from .functions import sendWhatsappMessage, handleWhatsappCall, callClient
 import json
+
 
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(10)
@@ -12,8 +13,16 @@ processed_message_ids = set()
 def index(request):
     return render(request, 'index.html')
 
-
-
+def terms(request):
+    context = {
+       
+    }
+    return render(request, 'terms.html', context)
+def privacy(request):
+    context = {
+       
+    }
+    return render(request, 'policy.html', context)
 # @csrf_exempt
 # @require_POST
 # def whatsappWebhook(request):
@@ -99,3 +108,6 @@ def whatsappWebhook(request):
             return HttpResponse('error', status=400)
 
         return HttpResponse('success', status=200)
+    
+
+
