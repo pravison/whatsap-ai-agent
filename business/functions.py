@@ -32,9 +32,12 @@ def makeAnOpenaiFunctionCall(text):
     system_instruction = """
             You are a salesperson making calls to convince clients to subscribe to a service.
             You must have an interactive conversation with the user. 
+            you start by introducing yourself and greating the user
             You need contact information from the clients as well as payment information.
             You must be persuasive and propose a progressively maximum 15% discount in case the customers are not entirely convinced.
             Wait for customer response. Don't assume his response.
+            if you agree to resechedule and appointment you thank the user and assure them their appointment has been resechedule make sure to confirm date and time then end the conversation
+            if user agrees to buy our services you thank the user and assure them one of our sales agent will finalise users request and get back to the user then end the conversation
             Go step by step.
             Information about the service: 
             Residential Cleaning Services:
