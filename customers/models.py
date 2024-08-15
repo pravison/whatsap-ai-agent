@@ -1,5 +1,4 @@
 from django.db import models
-from tinymce.models import HTMLField
 
 # Create your models here.
 class Customer(models.Model):
@@ -10,12 +9,15 @@ class Customer(models.Model):
     date_added = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        return self.whatsapp_profile
+        return f" {self. whatsapp_profile} phone number - {self.phone_number}"
     
 class Conversation(models.Model):
-    message = models.HTMLField()
-    role = models.CharField(max_length=100)
-    customer = models.ForeignKey(Customer, models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, models.DO_NOTHING, related_name='conversations')
+    sender = models.CharField(max_length=50, choices=(('user', 'user'), ('assistant', 'assistant')))
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.role
+        return f"Message from {self.sender} at {self.timestamp}"
+    
+

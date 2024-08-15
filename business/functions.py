@@ -1,4 +1,6 @@
 from django.conf import settings 
+from django.utils import timezone
+from customers.models import Conversation, Customer
 import requests
 import openai
 
@@ -25,9 +27,11 @@ def sendWhatsappMessage(fromId, message):
     return True
 
 
-conversation = []
 
-def makeAnOpenaiFunctionCall(text):
+def makeAnOpenaiFunctionCall(fromId, text):
+    customer = Customer.objects.get(phone_number=fromId)
+    # Retrieve all conversations for the given customer
+    conversations = Conversation.objects.filter(customer=customer)
 
     system_instruction = """
             You are a salesperson making calls to convince clients to subscribe to a service also a customer care support agent helping customers understand our servicess.
@@ -52,27 +56,42 @@ def makeAnOpenaiFunctionCall(text):
         "content": assistant_instruction
     })
 
-    for message in conversation:
-        if "assistant" in message:
+    # Iterate over all conversations and retrieve messages
+    for conversation in conversations:
+        if conversation.sender == "assistant":
             messages.append({
                 "role": "assistant",
-                "content": message["assistant"]
+                "content": conversation.message
             })
-        if "user" in message:
+        elif conversation.sender == "user":
             messages.append({
                 "role": "user",
-                "content": message["user"]
+                "content": conversation.message
             })
 
     question = {}
     question["role"]='user'
     question["content"]= text
     messages.append(question)
+    user_message = Conversation.objects.create(
+        customer=customer,
+        sender='user',
+        message=text,
+        timestamp=timezone.now()
+    )
 
     try:
+        print(messages)
         response = openai.ChatCompletion.create(model="gpt-4o-mini", messages=messages)
         answer= response['choices'][0]['message']['content']
+        assistant_message = Conversation.objects.create(
+            customer=customer,
+            sender='assistant',
+            message=answer,
+            timestamp=timezone.now()
+        )
         return answer
+
         
     except:
         return ''
