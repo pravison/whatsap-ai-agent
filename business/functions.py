@@ -100,6 +100,6 @@ def makeAnOpenaiFunctionCall(fromId, text):
 #bring it all together 
 #lets define the function thart talk to webhook
 def handleWhatsappCall(fromId, text):
-    message = makeAnOpenaiFunctionCall(text)
+    message = makeAnOpenaiFunctionCall(fromId, text)
     sendWhatsappMessage(fromId, message)
     
