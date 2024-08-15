@@ -12,9 +12,9 @@ class Customer(models.Model):
     def __str__(self):
         return self.whatsapp_profile
     
-class Chat(models.Model):
+class Conversation(models.Model):
     message = models.HTMLField()
-    role = models.CharField(max_length=20)
+    role = models.CharField(max_length=100)
     customer = models.ForeignKey(Customer, models.DO_NOTHING)
 
     def __str__(self):

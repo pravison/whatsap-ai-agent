@@ -83,12 +83,12 @@ def whatsappWebhook(request):
                     changes = entry.get('changes', [])
                     if changes:
                         value = changes[0].get('value', {})
-                        # metadata = value.get('metadata', {})
-                        # phoneId = metadata.get('phone_number_id')
-                        # contacts = value.get('contacts', [])
-                        # if contacts:
-                        #     profileName = contacts[0].get('profile', {}).get('name')
-                        #     whatsAppId = contacts[0].get('wa_id')
+                        metadata = value.get('metadata', {})
+                        phoneId = metadata.get('phone_number_id')
+                        contacts = value.get('contacts', [])
+                        if contacts:
+                            profileName = contacts[0].get('profile', {}).get('name')
+                            whatsAppId = contacts[0].get('wa_id')
                         messages = value.get('messages', [])
                         if messages:
                             fromId = messages[0].get('from')
@@ -96,11 +96,12 @@ def whatsappWebhook(request):
                             message_id = messages[0].get('id')
 
                             # Process the message only if it hasn't been processed before
-                            if message_id not in processed_message_ids:
-                                # sendWhatsappMessage(fromId, text)
-                                handleWhatsappCall(fromId , text)
-                                break
+                            # if message_id not in processed_message_ids:
+                            # sendWhatsappMessage(fromId, text)
+                            handleWhatsappCall(fromId , text)
+                            # processed_message_ids.add(message_id)
                             break
+                            # break
             except Exception as e:
                 print(f"Error processing webhook data: {e}")
                 return HttpResponse('error', status=500)
