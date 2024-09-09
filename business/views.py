@@ -46,8 +46,8 @@ def whatsappWebhook(request):
                     changes = entry.get('changes', [])
                     if changes:
                         value = changes[0].get('value', {})
-                        # metadata = value.get('metadata', {})
-                        # phoneId = metadata.get('phone_number_id')
+                        metadata = value.get('metadata', {})
+                        phoneId = metadata.get('phone_number_id')
                         contacts = value.get('contacts', [])
                         if contacts:
                             profileName = contacts[0].get('profile', {}).get('name')
@@ -66,18 +66,20 @@ def whatsappWebhook(request):
                                 }
                             )
 
-                            if created:
-                                print(f"New customer added: {customer}")
-                            else:
-                                print(f"Customer already exists: {customer}")
+                            # if created:
+                            #     print(f"New customer added: {customer}")
+                            # else:
+                            #     print(f"Customer already exists: {customer}")
 
                             # Process the message only if it hasn't been processed before
                             if message_id not in processed_message_ids:
                                 # sendWhatsappMessage(fromId, text)
                                 handleWhatsappCall(fromId , text)
                                 processed_message_ids.add(message_id)
+                                sendWhatsappMessage(fromId, phoneId)
                                 break
                             break
+
             except Exception as e:
                 print(f"Error processing webhook data: {e}")
                 return HttpResponse('error', status=500)
