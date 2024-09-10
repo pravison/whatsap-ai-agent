@@ -153,7 +153,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-WHATSAPP_URL=env('WHATSAPP_URL')
+WHATSAPP_URL =env('WHATSAPP_URL')
 WHATSAPP_TOKEN =env('WHATSAPP_TOKEN')
 OPENAI_API_KEY =env('OPENAI_KEY')
 

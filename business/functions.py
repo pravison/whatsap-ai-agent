@@ -8,6 +8,9 @@ import openai
 
 openai.api_key =settings.OPENAI_API_KEY
 
+whatsapp_url =settings.WHATSAPP_URL
+whatsapp_token =settings.WHATSAPP_TOKEN
+
 def receiveCall(audio):
     pass
 
@@ -15,7 +18,7 @@ def callClient(audio):
     pass
 
 def sendWhatsappMessage(fromId, message):
-    headers = {"Authorization" : settings.WHATSAPP_TOKEN}
+    headers = {"Authorization" : whatsapp_token}
     payload = {
         "messaging_product": "whatsapp",
         "recipient_type" : "individual",
@@ -23,7 +26,7 @@ def sendWhatsappMessage(fromId, message):
         "type":"text",
         "text":{"body": message}
         }
-    requests.post(settings.WHATSAPP_URL, headers=headers, json=payload)
+    requests.post(whatsapp_url, headers=headers, json=payload)
     return True
 
 
