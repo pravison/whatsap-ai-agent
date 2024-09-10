@@ -76,7 +76,7 @@ def whatsappWebhook(request):
                                 # sendWhatsappMessage(fromId, text)
                                 handleWhatsappCall(fromId , text)
                                 processed_message_ids.add(message_id)
-                                sendWhatsappMessage(fromId, phoneId)
+                                # sendWhatsappMessage(fromId, phoneId)
                                 break
                             break
 
