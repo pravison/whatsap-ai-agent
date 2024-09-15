@@ -1,18 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .functions import sendWhatsappMessage, handleWhatsappCall, callClient
-from customers.models import Customer
+from .functions import follow_up_tasks_today, add_customers_to_pipeline
+from customers.models import Customer, Conversation
+from accounts.models import CompanyInformation
+from ai.models import TaskPipeline, Escalation
 import json
+from django.utils import timezone
 
 
+current_date = timezone.now().date()
 from concurrent.futures import ThreadPoolExecutor
 executor = ThreadPoolExecutor(10)
 
 processed_message_ids = set()
 
 def index(request):
-    return render(request, 'index.html')
+    chats= Conversation.objects.filter(date_added=current_date)
+    total_chats = chats.count()
+    tasks= TaskPipeline.objects.filter(follow_up_date=current_date, done=True)
+    total_tasks = tasks.count()
+    escalations = Escalation.objects.filter(date=current_date)
+    total_escalations = escalations.count()
+    company = CompanyInformation.objects.filter(id=1).first()
+    title = company.company_name if company else "Your Site"
+    return render(request, 'index.html', {'title' : title, 'total_chats': total_chats, 'total_tasks': total_tasks, 'total_escalations': total_escalations })
 
 def terms(request):
     context = {
@@ -66,17 +78,10 @@ def whatsappWebhook(request):
                                 }
                             )
 
-                            # if created:
-                            #     print(f"New customer added: {customer}")
-                            # else:
-                            #     print(f"Customer already exists: {customer}")
-
                             # Process the message only if it hasn't been processed before
                             if message_id not in processed_message_ids:
-                                # sendWhatsappMessage(fromId, text)
-                                handleWhatsappCall(fromId , text)
+                                # handleWhatsappCall(fromId , text)
                                 processed_message_ids.add(message_id)
-                                # sendWhatsappMessage(fromId, phoneId)
                                 break
                             break
 
@@ -89,4 +94,21 @@ def whatsappWebhook(request):
         return HttpResponse('success', status=200)
     
 
+def leadsWarmupPage(request):
+    # Get all tasks with a follow-up date of today
+    tasks = TaskPipeline.objects.filter(follow_up_date=current_date, done=False)
+    company = CompanyInformation.objects.filter(id=1).first()
+    title = company.company_name if company else "Your Site"
+    context = {
+       'title' : title,
+       'tasks' : tasks
+    }
+    return render(request, 'leads_warmup.html', context)
 
+def addCustomersForFollowUp(request):
+    add_customers_to_pipeline()
+    return redirect('leads_warmup_page')
+
+def customersForFollowUp(request):
+    follow_up_tasks_today()
+    return redirect('leads_warmup_page')

@@ -1,144 +1,113 @@
-<!-- /*
-* Template Name: Property
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Untree.co" />
-    <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <meta name="description" content="" />
-    <meta name="keywords" content="bootstrap, bootstrap5" />
+  <title>{% block title %} {% endblock%}- {{title }}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
-    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-    <link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
 
-    <title>
-     Salesflow Pro - {% block title %} {% endblock %}
-    </title>
-  </head>
-  <body>
-    <div class="site-mobile-menu site-navbar-target">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close">
-          <span class="icofont-close js-menu-toggle"></span>
-        </div>
-      </div>
-      <div class="site-mobile-menu-body"></div>
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/select2.min.css' %}" rel="stylesheet">
+
+  <!-- Date Time -->
+  <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui.css' %}">
+  <link rel='stylesheet' href="{% static 'date-time-phone/jquery-ui-timepicker-addon.css' %}" />
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{% url 'index' %}" class="logo d-flex align-items-center">
+        <span class="d-none d-lg-block">{{title }}</span>
+      </a>
+    </div><!-- End Logo -->
+
+  </header><!-- End Header -->
+  
+  
+
+  {% block content %}
+
+  {% endblock %}
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>{{title}}</span></strong>. All Rights Reserved
     </div>
+    <div class="credits">powered by Sales Flow Pro</div>
+  </footer><!-- End Footer -->
 
-    <!-- <nav class="site-nav">
-      <div class="container">
-        <div class="menu-bg-wrap">
-        </div>
-      </div>
-    </nav> -->
-    {% block content %}
-   
-    {% endblock content %}
-    <div class="site-footer">
-      <div class="container">
-        <div class="row">
-          <div class="row justify-content-center align-items-center">
-          
-            
-          </div>  
-          <div class="col-lg-4">
-            <div class="widget">
-              <h3>Contact</h3>
-              <address>4th floor Delta Corner Westland,  Nairobi Kenya</address>
-              <ul class="list-unstyled links">
-                <li><a href="tel://0740562740">+254740562740</a></li>
-                <li><a href="tel://0732451430">+254732451430</a></li>
-                <li>
-                  <a href="mailto:saleflowpro88@gmail.com">saleflowpro88@gmail.com</a>
-                </li>
-              </ul>
-            </div>
-            <!-- /.widget -->
-          </div>
-          <!-- /.col-lg-4 -->
-          <div class="col-lg-4">
-            <div class="widget">
-              <h3>Sources</h3>
-              <ul class="list-unstyled float-start links">
-                <!-- <li><a href="index.html#">About us</a></li>
-                <li><a href="index.html#">Services</a></li>
-                <li><a href="index.html#">Vision</a></li>
-                <li><a href="index.html#">Mission</a></li> -->
-                <li><a href="{% url 'terms' %}">Terms</a></li>
-                <li><a href="{% url 'privacy' %}">Privacy</a></li>
-              </ul>
-              <!-- <ul class="list-unstyled float-start links">
-                <li><a href="index.html#">Partners</a></li>
-                <li><a href="index.html#">Business</a></li>
-                <li><a href="index.html#">Careers</a></li>
-                <li><a href="index.html#">Blog</a></li>
-                <li><a href="index.html#">FAQ</a></li>
-                <li><a href="index.html#">Creative</a></li>
-              </ul> -->
-            </div>
-            <!-- /.widget -->
-          </div>
-         
-        </div>
-        <!-- /.row -->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-        <div class="row mt-5">
-          <div class="col-12 text-center">
-            <!-- 
-              **==========
-              NOTE: 
-              Please don't remove this copyright link unless you buy the license here https://untree.co/license/  
-              **==========
-            -->
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/chart.umd.js' %}"></script>
+  <script src="{% static 'assets/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
 
-            <p>
-              Copyright &copy;
-              <script>
-                document.write(new Date().getFullYear());
-              </script>
-              . All Rights Reserved. &mdash; Designed with love by
-              <a href="https://salesflowpro.xyz/" target="_blank">Salesflow Pro</a>
-            </p>
-          
-          </div>
-        </div>
-      </div>
-      <!-- /.container -->
-    </div>
-    <!-- /.site-footer -->
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="{% static 'assets/js/select2.min.js' %}"></script>
 
-    <!-- Preloader -->
-    <div id="overlayer"></div>
-    <div class="loader">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
+  <script>
+    setTimeout(function(){
+      if ($('#msg').length > 0) {
+        $('#msg').remove();
+      }
+    }, 2000)
+  </script>
 
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/tiny-slider.js' %}"></script>
-    <script src="{% static 'js/aos.js' %}"></script>
-    <script src="{% static 'js/navbar.js' %}"></script>
-    <script src="{% static 'js/counter.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
-  </body>
+<script src="{% static 'date-time-phone/jquery-ui.js' %}" ></script>
+<script src="{% static 'date-time-phone/jquery-ui-timepicker-addon.js' %}"></script> 
+
+<script>
+  $( function() {
+      $( "#pipeline_date" ).datetimepicker({ dateFormat: 'yy-mm-dd', maxDate: 0, controlType: 'select'}).attr("autocomplete", "off") ;
+      //$( "#pipeline_date" ).timepicker({ dateFormat: 'yy-mm-dd', maxDate: 0, controlType: 'select'}).attr("autocomplete", "off") ;
+      // $( "#ipipeline_date" ).datepicker({ dateFormat: 'yy-mm-dd' }).attr("autocomplete", "off") ;
+  });
+  </script>
+
+<script src="{% static 'date-time-phone/jquery-input-mask-phone-number.min.js' %}"></script> 
+
+<script>
+  //(xxx) xxx-xxxx format code
+  $(document).ready(function () {
+      $('#id_phone_number').usPhoneFormat({
+          format: '(xxx) xxx-xxxx',
+      });   
+  });
+  </script>
+
+</body>
 </html>

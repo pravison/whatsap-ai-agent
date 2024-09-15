@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     #additional app
     'business',
     'customers',
+    'ai',
+    'accounts',
     #packages 
     'tinymce',
 ]
