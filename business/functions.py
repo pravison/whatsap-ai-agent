@@ -499,8 +499,6 @@ def add_customers_to_pipeline():
                 )
                 print(f"Added {customer.phone_number} to TaskPipeline")
 
-
-
 # leads warmup agent
 def follow_up_tasks_today():
     """
