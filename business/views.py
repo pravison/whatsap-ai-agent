@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .functions import follow_up_tasks_today, add_customers_to_pipeline
+from .functions import handleWhatsappCall, follow_up_tasks_today, add_customers_to_pipeline
 from customers.models import Customer, Conversation
 from accounts.models import CompanyInformation
 from ai.models import TaskPipeline, Escalation
@@ -80,7 +80,8 @@ def whatsappWebhook(request):
 
                             # Process the message only if it hasn't been processed before
                             if message_id not in processed_message_ids:
-                                # handleWhatsappCall(fromId , text)
+                                customer_message = text
+                                handleWhatsappCall(fromId, customer_message)
                                 processed_message_ids.add(message_id)
                                 break
                             break
