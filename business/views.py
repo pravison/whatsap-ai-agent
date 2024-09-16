@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .functions import handleWhatsappCall, follow_up_tasks_today, add_customers_to_pipeline
@@ -15,6 +16,7 @@ executor = ThreadPoolExecutor(10)
 
 processed_message_ids = set()
 
+@login_required
 def index(request):
     chats= Conversation.objects.filter(date_added=current_date)
     total_chats = chats.count()
@@ -94,7 +96,7 @@ def whatsappWebhook(request):
 
         return HttpResponse('success', status=200)
     
-
+@login_required
 def leadsWarmupPage(request):
     # Get all tasks with a follow-up date of today
     tasks = TaskPipeline.objects.filter(follow_up_date=current_date, done=False)
@@ -106,10 +108,12 @@ def leadsWarmupPage(request):
     }
     return render(request, 'leads_warmup.html', context)
 
+@login_required
 def addCustomersForFollowUp(request):
     add_customers_to_pipeline()
     return redirect('leads_warmup_page')
 
+@login_required
 def customersForFollowUp(request):
     follow_up_tasks_today()
     return redirect('leads_warmup_page')

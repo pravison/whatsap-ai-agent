@@ -38,24 +38,48 @@ ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', '.salesflowpro.xyz']
 
 # Application definition
 
-INSTALLED_APPS = [
+SHARED_APPS = (
+    'django_tenants',  # mandatory
+    'clients', # you must list the app where your tenant model resides in
+
+    'django.contrib.contenttypes',
+
+    # everything below here is optional
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    #packages 
+    'tinymce',
+
+)
+
+TENANT_APPS = (
+    # your tenant-specific apps
+    #additional app
+    'business',
+    'customers',
+    'ai',
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    #additional app
-    'business',
-    'customers',
-    'ai',
-    'accounts',
     #packages 
     'tinymce',
-]
+)
+
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+TENANT_MODEL = "clients.Client"
+TENANT_DOMAIN_MODEL ="clients.Domain"
+
+LOGIN_URL = '/admin/login/'
 
 MIDDLEWARE = [
+    'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +91,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'whatsapp.urls'
+PUBLIC_SCHEMA_URLCONF = 'whatsapp.urls_public'
 
 TEMPLATES = [
     {
@@ -97,6 +122,7 @@ DATABASES = {
         env('POSTGRESQL'),
         conn_max_age=600,
         conn_health_checks=True,
+        engine='django_tenants.postgresql_backend',
     )
  }
 
@@ -107,6 +133,9 @@ DATABASES = {
 #     }
 # }
 
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -158,6 +187,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WHATSAPP_URL =env('WHATSAPP_URL')
 WHATSAPP_TOKEN =env('WHATSAPP_TOKEN')
 OPENAI_API_KEY =env('OPENAI_KEY')
+
+SHOW_PUBLIC_IF_NO_TENANT_FOUND = True
+SECURE_PROXY_SSL_HEADER = ( 'HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 
 TINYMCE_DEFAULT_CONFIG = {
