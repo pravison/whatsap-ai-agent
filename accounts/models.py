@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
@@ -30,3 +31,13 @@ class Staff(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class WhatsappNumber(models.Model):
+    whatsapp_number = models.CharField(max_length=20)
+    whatsapp_business_app_url= models.URLField(max_length=100)
+    whatsapp_auth_token = models.UUIDField(editable=False)
+    whatsapp_auth_token = models.CharField(max_length=500, editable=False)
+    
+    def __str__(self):
+        return self.whatsapp_number
