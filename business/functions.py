@@ -5,7 +5,7 @@ from customers.models import Conversation, Customer
 import requests
 import openai
 from ai.models import TaskPipeline, Escalation, AI_Agent, SalesFunnelStageInstruction
-from accounts.models import CompanyInformation
+from accounts.models import CompanyInformation, WhatsappNumber
 
 
 # Set up OpenAI API key 
@@ -23,9 +23,11 @@ def callClient(audio):
 ########################################################################################################################################################
 
 
-whatsapp_url =settings.WHATSAPP_URL
-whatsapp_token =settings.WHATSAPP_TOKEN
+
 def sendWhatsappMessage(fromId, message):
+    whatsapp = WhatsappNumber.objects.order_by("id").first()
+    whatsapp_url =whatsapp.whatsapp_business_app_url
+    whatsapp_token =whatsapp.whatsapp_auth_token
     headers = {"Authorization" : whatsapp_token}
     payload = {
         "messaging_product": "whatsapp",

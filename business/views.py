@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .functions import handleWhatsappCall, follow_up_tasks_today, add_customers_to_pipeline
 from customers.models import Customer, Conversation
-from accounts.models import CompanyInformation
+from accounts.models import CompanyInformation, WhatsappNumber
 from ai.models import TaskPipeline, Escalation
 import json
 from django.utils import timezone
@@ -41,8 +41,9 @@ def privacy(request):
         
 @csrf_exempt
 def whatsappWebhook(request):
+    whatsapp = WhatsappNumber.objects.filter(id=1).first()
     if request.method == "GET":
-        VERIFY_TOKEN = "3611bd62-b967-4c49-8817-fadd7a6eea2c"
+        VERIFY_TOKEN = whatsapp.whatsapp_verify_token
         mode = request.GET.get('hub.mode')
         token = request.GET.get('hub.verify_token')
         challenge = request.GET.get('hub.challenge')
