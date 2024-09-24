@@ -5,7 +5,7 @@ from customers.models import Conversation, Customer
 import requests
 import openai
 from ai.models import TaskPipeline, Escalation, AI_Agent, SalesFunnelStageInstruction
-from accounts.models import CompanyInformation, WhatsappNumber
+from accounts.models import CompanyInformation, Whatsapp
 
 
 # Set up OpenAI API key 
@@ -23,10 +23,9 @@ def callClient(audio):
 ########################################################################################################################################################
 
 
-
 def sendWhatsappMessage(fromId, message):
-    whatsapp = WhatsappNumber.objects.order_by("id").first()
-    whatsapp_url =whatsapp.whatsapp_business_app_url
+    whatsapp = Whatsapp.objects.order_by("id").first()
+    whatsapp_url =whatsapp.whatsapp_url
     whatsapp_token =whatsapp.whatsapp_auth_token
     headers = {"Authorization" : whatsapp_token}
     payload = {
@@ -304,6 +303,25 @@ def handle_customer_query(customer_message, customer):
     Respond to the customer, taking into account their query and their position in the sales funnel.
     If it’s the first interaction, introduce yourself, and then respond appropriately to the customer's message. 
     If escalation is needed, just reply you will be escalated to hunan agent to be assisted.
+    never hullucinate answer only what you've been asked by the customer 
+    and if you dont know just say you dont and am escalating you to a human agent to assist you
+    try making your answers short and to the point not more than 200 characters unless you have been asked for an indepth explanation
+    
+    also remember You are an AI assistant that communicates with users in both Kiswahili and English. 
+    Respond to users by following their language pattern. 
+    If they mix Kiswahili and English in one sentence, respond using both languages in a similar way. 
+    If they speak only Kiswahili or only English, respond in that language. Here are some examples:
+
+    User: Najiskia vizuri sana.
+    AI: That's great to hear! Kuna kitu chochote unahitaji msaada nayo leo?
+
+    User: I want to learn how to speak German.
+    AI: Ah, that's awesome! Unataka kuanza na misemo ya msingi au kitu kingine?
+
+    User: Nataka kujifunza syntax ya lugha ya Kijerumani.
+    AI: Hiyo ni hatua nzuri! Syntax ya Kijerumani ni tofauti kidogo, but we can start with basic sentence structures.
+
+    Now, continue this pattern for all responses.
     """
 
     # Call OpenAI API to generate a response based on the dynamic prompt
@@ -330,7 +348,7 @@ def handle_customer_query(customer_message, customer):
     print(ai_response)
     return ai_response  
 
-import dateparser
+
 import re
 
 def extract_time(message):

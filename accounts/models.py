@@ -31,13 +31,12 @@ class Staff(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class WhatsappNumber(models.Model):
+    
+class Whatsapp(models.Model):
     whatsapp_number = models.CharField(max_length=20)
-    whatsapp_business_app_url= models.URLField(max_length=100)
-    whatsapp_verify_token = models.UUIDField(editable=False)
-    whatsapp_auth_token = models.CharField(max_length=500, editable=False)
+    whatsapp_url= models.URLField(max_length=100)
+    whatsapp_verify_token = models.CharField(max_length=200)
+    whatsapp_auth_token = models.CharField(max_length=500)
     
     def __str__(self):
         return self.whatsapp_number
