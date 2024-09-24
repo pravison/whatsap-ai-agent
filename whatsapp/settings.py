@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+import psycopg2
 import environ
 import os
 
@@ -117,6 +117,8 @@ WSGI_APPLICATION = 'whatsapp.wsgi.application'
 
 import dj_database_url 
 
+# cnx = psycopg2.connect(user="salesgenie", password="0710abdi#", host="salesgenie.postgres.database.azure.com", port=5432, database="postgres")
+
 DATABASES = {
     'default': dj_database_url.parse(
         env('POSTGRESQL'),
@@ -125,6 +127,19 @@ DATABASES = {
         engine='django_tenants.postgresql_backend',
     )
  }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_tenants.postgresql_backend',
+#         'NAME': 'postgres',
+#         'USER': 'salesgenie',
+#         'PASSWORD': '0710abdi#',
+#         'HOST': 'salesgenie.postgres.database.azure.com',
+#         'PORT': '5432', 
+#         # ..
+#     }
+# }
+
 
 # DATABASES = {
 #     'default': {
