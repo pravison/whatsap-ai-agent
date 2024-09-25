@@ -19,7 +19,7 @@ class Client(TenantMixin):
 
 
     def __str__(self):
-        return str(self.name)
+        return str(self.business_name)
 
 class Domain(DomainMixin):
     pass
