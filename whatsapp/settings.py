@@ -115,28 +115,26 @@ WSGI_APPLICATION = 'whatsapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-import dj_database_url 
 
-# cnx = psycopg2.connect(user="salesgenie", password="0710abdi#", host="salesgenie.postgres.database.azure.com", port=5432, database="postgres")
+import dj_database_url 
 
 DATABASES = {
     'default': dj_database_url.parse(
         env('POSTGRESQL'),
         conn_max_age=600,
         conn_health_checks=True,
-        engine='django_tenants.postgresql_backend',
+        engine="django_tenants.postgresql_backend",
     )
- }
+}
 
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django_tenants.postgresql_backend',
-#         'NAME': 'postgres',
-#         'USER': 'salesgenie',
-#         'PASSWORD': '0710abdi#',
-#         'HOST': 'salesgenie.postgres.database.azure.com',
-#         'PORT': '5432', 
-#         # ..
+#     "default": {
+#         "ENGINE": "django_tenants.postgresql_backend",
+#         "NAME": "tsdb",
+#         "USER": "tsdbadmin",
+#         "PASSWORD": env('PASSWORD'),
+#         "HOST": env('HOST'),
+#         "PORT": env('PORT'),
 #     }
 # }
 
