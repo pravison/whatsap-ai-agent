@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .functions import handleWhatsappCall, follow_up_tasks_today, add_customers_to_pipeline
+from .functions import handleWhatsappCall, follow_up_tasks_today, add_customers_to_pipeline, save_conversation
 from customers.models import Customer, Conversation
 from accounts.models import CompanyInformation, Whatsapp
 from ai.models import TaskPipeline, Escalation
@@ -24,16 +24,20 @@ def index(request):
     total_tasks = tasks.count()
     escalations = Escalation.objects.filter(date=current_date)
     total_escalations = escalations.count()
-    company = CompanyInformation.objects.filter(id=1).first()
+    company = CompanyInformation.objects.order_by('id').first()
     title = company.company_name if company else "Your Site"
     return render(request, 'index.html', {'title' : title, 'total_chats': total_chats, 'total_tasks': total_tasks, 'total_escalations': total_escalations })
 
 def terms(request):
+    company = CompanyInformation.objects.order_by('id').first()
+    title = company.company_name if company else "Your Site"
     context = {
        
     }
     return render(request, 'terms.html', context)
 def privacy(request):
+    company = CompanyInformation.objects.order_by('id').first()
+    title = company.company_name if company else "Your Site"
     context = {
        
     }
@@ -73,14 +77,18 @@ def whatsappWebhook(request):
                             text = messages[0].get('text', {}).get('body')
                             message_id = messages[0].get('id')
 
+
                             # Check if customer with the phone number exists
+                            request.session['phone_number'] = 'fromId'
                             customer, created = Customer.objects.get_or_create(
                                 phone_number=fromId,
                                 defaults={
                                     'whatsapp_profile': profileName,
                                 }
                             )
-
+                            sender = 'customer'
+                            message = text
+                            save_conversation(customer, message, sender )
                             # Process the message only if it hasn't been processed before
                             if message_id not in processed_message_ids:
                                 customer_message = text

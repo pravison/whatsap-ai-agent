@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} products {% endblock%}
+{% block content %}
+<!-- <div
+    class="hero page-inner overlay"
+    style="background-image: url('images/hero_bg_3.jpg')"
+>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading" data-aos="fade-up">
+                    {{ product.name}}
+                    
+                </h1>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="section">
+    <div class="container mt-5">
+    <div class="row justify-content-between">
+        <div class="col-lg-7">
+        <div class="img-property-slide-wrap">
+            <div class="img-property-slide">
+            <img src="{% if product.product_photo %} {{product.imageURL}} {%else%} {{ product.qr_code.url }} {% endif %}" alt="Image" class="img-fluid" />
+            <img src="{% if product.product_photo %} {{product.imageURL}} {%else%} {{ product.qr_code.url }} {% endif %}" alt="Image" class="img-fluid" />
+            <img src="{% if product.product_photo %} {{product.imageURL}} {%else%} {{ product.qr_code.url }} {% endif %}" alt="Image" class="img-fluid" />
+            </div>
+        </div>
+        </div>
+        <div class="col-lg-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h2 class="heading text-primary">{{ product.name }}</h2>
+        <h1 class="heading text-primary">{{ product.price }}</h1>
+        <!-- <p class="meta"></p> -->
+        {{ product.description|safe }}
+        <div class="col-lg-12 mb-2">
+        
+        <button data-menu={{product.id}} data-action="remove" class="update-cart btn btn-primary py-2 px-3">
+            <span ><strong>-</strong></span>
+        </button>
+        <button data-menu={{product.id}} data-action="add" class="update-cart btn btn-primary py-2 px-3">
+            <span ><strong>+</strong></span>
+        </button>
+        
+        </div>
+        <div class="col-lg-12 mb-2">
+            <a
+                href="https://wa.me/{{whatsapp.whatsapp_number}}/?text=hello..."
+                class="btn btn-primary py-2 px-3"
+                >Have A question? <span class="icon-whatsapp"></span></a
+            >
+        </div>
+        <div class="col-lg-12 mb-2">
+        <a
+            href="{% url 'asking_for_help' product.id %}"
+            class="btn btn-primary py-2 px-3"
+            >Seek help from attendant</a
+        >
+        </div>
+    
+    </div>
+    </div>
+</div>
+
+
+{% endblock content%}

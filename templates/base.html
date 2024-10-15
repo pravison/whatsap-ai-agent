@@ -1,0 +1,214 @@
+<!-- /*
+* Template Name: Property
+* Template Author: Untree.co
+* Template URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Untree.co" />
+    <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <title>
+      {{title }} - {% block title %} {% endblock %}
+    </title>
+  </head>
+  <body>
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close">
+          <span class="icofont-close js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <nav class="site-nav">
+      <div class="container">
+        <div class="menu-bg-wrap">
+          <div class="site-navigation">
+            <a href="{% url 'products' %}" class="logo m-0 float-start">{{title }}</a>
+            <ul
+              class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end"
+            >
+              <li class="active"><a href="{% url 'products' %}">Store</a></li>
+              
+              <li><a href="{% url 'products' %}">Services</a></li>
+              <li><a href="{% url 'products' %}">Products</a></li>
+              {% if request.user.is_staff%}
+              <li><a href="{% url 'index' %}">Dashboard</a></li>
+              {% endif %}
+            </ul>
+            
+            <a
+              href="#"
+              class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none"
+              data-toggle="collapse"
+              data-target="#main-navbar"
+            >
+              <span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    {% block content %}
+   
+    {% endblock content %}
+    <div class="site-footer">
+      <div class="container">
+        <div class="row">
+          <!-- <div class="col-lg-4">
+            <div class="widget">
+              <h3>Contact</h3>
+              <address>43 Raymouth Rd. Baltemoer, London 3910</address>
+              <ul class="list-unstyled links">
+                <li><a href="tel://11234567890">+1(123)-456-7890</a></li>
+                <li><a href="tel://11234567890">+1(123)-456-7890</a></li>
+                <li>
+                  <a href="mailto:info@mydomain.com">info@mydomain.com</a>
+                </li>
+              </ul>
+            </div>
+          </div> -->
+          <!-- /.col-lg-4 -->
+          <!-- <div class="col-lg-4">
+            <div class="widget">
+              <h3>Sources</h3>
+              <ul class="list-unstyled float-start links">
+                <li><a href="index.html#">About us</a></li>
+                <li><a href="index.html#">Services</a></li>
+                <li><a href="index.html#">Vision</a></li>
+                <li><a href="index.html#">Mission</a></li>
+                <li><a href="index.html#">Terms</a></li>
+                <li><a href="index.html#">Privacy</a></li>
+              </ul>
+              <ul class="list-unstyled float-start links">
+                <li><a href="index.html#">Partners</a></li>
+                <li><a href="index.html#">Business</a></li>
+                <li><a href="index.html#">Careers</a></li>
+                <li><a href="index.html#">Blog</a></li>
+                <li><a href="index.html#">FAQ</a></li>
+                <li><a href="index.html#">Creative</a></li>
+              </ul>
+            </div>
+          </div> -->
+          <!-- /.col-lg-4 -->
+          <!-- <div class="col-lg-4">
+            <div class="widget">
+              <h3>Links</h3>
+              <ul class="list-unstyled links">
+                <li><a href="index.html#">Our Vision</a></li>
+                <li><a href="index.html#">About us</a></li>
+                <li><a href="index.html#">Contact us</a></li>
+              </ul>
+
+              <ul class="list-unstyled social">
+                <li>
+                  <a href="index.html#"><span class="icon-instagram"></span></a>
+                </li>
+                <li>
+                  <a href="index.html#"><span class="icon-twitter"></span></a>
+                </li>
+                <li>
+                  <a href="index.html#"><span class="icon-facebook"></span></a>
+                </li>
+                <li>
+                  <a href="index.html#"><span class="icon-linkedin"></span></a>
+                </li>
+                <li>
+                  <a href="index.html#"><span class="icon-pinterest"></span></a>
+                </li>
+                <li>
+                  <a href="index.html#"><span class="icon-dribbble"></span></a>
+                </li>
+              </ul>
+            </div>
+          </div> -->
+          <!-- /.col-lg-4 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row mt-5">
+          <div class="col-12 text-center">
+            <!-- 
+              **==========
+              NOTE: 
+              Please don't remove this copyright link unless you buy the license here https://untree.co/license/  
+              **==========
+            -->
+
+            <p>
+              Copyright &copy;
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              . All Rights Reserved. 
+              <a href="https://untree.co">{{title}}</a>
+              <!-- License information: https://untree.co/license/ -->
+            </p>
+            <div>
+              Powered by
+              <a href="https://salesflowpro.xyz/" target="_blank">Salesflow Pro</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container -->
+    </div>
+    <!-- /.site-footer -->
+    <div 
+    style="position: fixed; z-index: 99999; width: 70px; height: 30px; border-radius: 4px; right: 55px; top: 100px;"
+    >
+      <a href="{% url 'cart' %}" class="d-flex align-items-center justify-content-center btn btn-primary py-2 px-3" title="view cart">
+        cart({{ order.get_cart_items}})
+      </a>
+    </div>
+
+    <div 
+    style="position: fixed; z-index: 99999; width: 50px; height: 50px; border-radius: 4px; right: 15px; bottom: 15px;"
+    >
+      <a href="https://wa.me/{{whatsapp.whatsapp_number}}/?text=hello..." class="d-flex align-items-center justify-content-center btn btn-primary py-2 px-3" target="_blank" title="reach out through whatsapp">
+        <span class="icon-whatsapp xxl"></span>
+      </a>
+    </div>
+    
+    <!-- Preloader -->
+    <div id="overlayer"></div>
+    <div class="loader">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/tiny-slider.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/counter.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <!-- javacsript code for handling adding products to cart -->
+    <script src="{% static 'js/cart.js' %}"></script>
+  </body>
+</html>

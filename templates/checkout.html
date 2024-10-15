@@ -1,0 +1,116 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title%}checkout{%endblock title%}
+{% block content%}
+
+<div class="row mt-5 p-lg-5">
+    <div class="mt-5 p-lg-5" >
+
+    </div>
+    <div class="col-lg-11 mt-5">
+        <div class="box-element" id="form-wrapper">
+            
+            <br/>
+            <div class="box-element hidden"  id="payment-info" style="text-align: center;">
+                <h3 style="color: black; "> Head To The Counter To Pay</h3>
+            </div>
+        </div>
+    </div>
+    <div class="overflow-auto">
+        <div class="col-lg-11 p-1" >
+            <div class="box-element" style="padding-left: 10px;">
+                <a class="btn btn-outline-dark" href="{% url 'cart' %}"><i class="bi-arrow-left"></i>Back to Cart</a>
+                <hr/>
+                <h3 style="color: black; text-align: center;"> Order Summary</h3>
+                <hr/>
+                {% for item in cartItems %}
+                <div class="cart-row" style="display: flex; align-items: center; " >
+                    <div style="flex:2 ; color: black;"><img src="{%if item.product_photo%}{{ item.product.imageURL}}{% else %}{{item.product.qr_code.url}}{% endif %}" class="img-fluid" style="width:80px; " alt=""></div>
+                    <div style="flex:2; color: black;">{{item.product.name}}</div>
+                    <div style="flex:1; color: black;">{{item.product.price}}</div>
+                    <div style="flex:1; color: black;">x{{item.quantity}}</div>
+                    <div style="flex:1; color: black;">{{item.get_total  }}</div>
+                </div>
+                {% endfor %}
+                <div style="text-align: center;">
+                <h5 style="color: black; "><strong>Items: {{ order.get_cart_items }}</strong></h5>
+                <h5 style="color: black; "><strong>Total: Ksh{{order.get_cart_total }}</strong></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    var total ='{{order.get_cart_total}}'
+
+    if (user != 'AnonymousUser'){
+        document.getElementById('user-info').innerHTML = ''
+    }
+    var form = document.getElementById('form-button')
+    
+    form.addEventListener('click', function(e){
+        e.preventDefault()
+        console.log('Form submitted ...')
+        number = document.getElementById('number').value;
+        if (user =='AnonymousUser'){
+            name = document.getElementById('name').value;
+            email = document.getElementById('email').value;
+            }
+        document.getElementById('form-button').classList.add("hidden");
+        document.getElementById('payment-info').classList.remove("hidden");
+        
+    })
+
+    document.getElementById('make-payment').addEventListener('click', function(e){
+        submitFormData()
+    })
+    function submitFormData(){
+        console.log('payment button clicked')
+        
+        var userFormData = {
+            'name' : null,
+            'email' : null,
+            'total' : total 
+        }
+
+        var tableInfo = {
+            'number': number
+
+        }
+
+        if (user =='AnonymousUser'){
+            userFormData.name = name,
+            userFormData.email = email
+
+            }
+
+        
+        
+        
+        var url = '/process_order/'
+
+        fetch(url, {
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json', 
+                'X-CSRFToken' : csrftoken,
+            },
+            body: JSON.stringify({'form':userFormData , 'table': tableInfo})
+        })
+        .then((response)=> response.json())
+        .then((data)=> {
+            console.log('succes:', data);
+            alert('transaction completed');
+            cart = {}
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+            window.location.href = "{% url 'index' %}"
+        })
+
+        
+    }
+
+</script>
+{%endblock content%}

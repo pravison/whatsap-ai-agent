@@ -40,7 +40,7 @@ def sendWhatsappMessage(fromId, message):
 
 
 #######################################################################################################################################################
-# cutomer support agent
+# ___________cutomer support agent________________________________
 ########################################################################################################################################################
     
 
@@ -155,7 +155,7 @@ def get_past_conversations(customer):
     return conversation_history, False
 
 
-def save_conversation(customer, customer_message, ai_response):
+def save_conversation(customer, message, sender):
     """
     Save the customer's message and the AI response to the Chat model.
 
@@ -167,18 +167,13 @@ def save_conversation(customer, customer_message, ai_response):
     Returns:
     - None2
     """
-    # Save customer's message
-    Conversation.objects.create(
-        customer=customer,
-        message=customer_message,
-        sender='customer'
-    )
+    
 
     # Save AI's response
     Conversation.objects.create(
         customer=customer,
-        message=ai_response,
-        sender='AI'
+        message=message,
+        sender=sender
     )
 
 
@@ -335,8 +330,9 @@ def handle_customer_query(customer_message, customer):
 
     # Parse the response
     ai_response = response['choices'][0]['message']['content']
-
-    save_conversation(customer, customer_message, ai_response)
+    sender = "AI"
+    message = ai_response
+    save_conversation(customer, message, sender)
 
     # handle escalations
     escalation_needed(customer, customer_message, ai_response)

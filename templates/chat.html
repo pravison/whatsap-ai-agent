@@ -1,0 +1,88 @@
+
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Chats with {{ customer.name}} {% endblock%}
+{% block content %}
+
+<main id="main" class="main">
+    
+    <div class="pagetitle">
+        <h1>welcome to  {{ title }}</h1>
+        <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'chat_lists' %}">Customer List</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'write_message' %}">Write Message</a></li>
+        </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    
+    <section class="section chat-container" style="height: 100%;">
+        <div class="row">
+          <div class="col-xxl-4 col-xl-12 ">
+  
+            <div class="card">
+                <!-- <h5 class="card-title">Customer Chats</h5> -->
+
+                <div class="container-fluid d-flex flex-column h-100 ">
+                    <h4 class="text-center p-2" id="chat-user">Chats with {{customer.name}}</h4>
+                    
+                    <div class="chat-box" id="chat-box">
+                        {% for message in chats  %}
+                        <!-- Example of received message -->
+                        <div class="message {% if message.sender == 'customer'%} sent {% else %} received {% endif %} {% if message.read %} read {% endif %} " id="message-{{message.id}}" data-read="message.read">
+                           {{message.message}}
+                        </div>
+                        {% endfor %}
+                    </div>
+                
+                    <!-- Input section -->
+                    <div class="chat-input">
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-warning alert-dismissible fade show col-lg-6" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        
+                        
+                            {% endfor %}
+                        {% endif %}
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="message" style="height: 100px"></textarea>
+                            </div>
+                            </div>
+                    
+                            <button type="submit" class="btn btn-primary flex-end">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+  
+          </div>
+        </div>
+      </section>
+    
+    </main><!-- End #main -->
+{% block script %}
+<script>
+    // sccroll to the last read 
+    window.onload = function(){
+        const chatBox = document.getElementById('chat-box');
+        const lastReadMessage = document.querySelector('.message.read');
+        if (lastReadMessage){
+            // scrol to the chat boxt to the last read message
+            chatBox.scrollTop = lastReadMessage.offsetTop - chatBox.clientHeight + lastReadMessage.clientHeight;
+            console.log('read')
+        } else{
+            // if no read message scroll to the bottom 
+            chatBox.scrollTop = chatBox.scrollHeight;
+            console.log('down')
+        }
+    }
+</script>
+{% endblock %}
+{% endblock %}

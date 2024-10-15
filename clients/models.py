@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce.models import HTMLField  
 from django_tenants.models import TenantMixin, DomainMixin
 
 # Create your models here.
@@ -34,3 +35,10 @@ class Domain(DomainMixin):
 #     refferal_code = models.CharField(max_length=100, blank=True, null=True)
 #     location = models.CharField(max_length=200, blank=True, null=True)
 #     password = models.CharField(max_length=200, blank=True, null=True)
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=200)
+    answer = HTMLField()
+
+    def __str__(self):
+        return self.question

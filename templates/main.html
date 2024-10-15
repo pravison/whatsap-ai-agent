@@ -33,7 +33,57 @@
   <!-- Date Time -->
   <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui.css' %}">
   <link rel='stylesheet' href="{% static 'date-time-phone/jquery-ui-timepicker-addon.css' %}" />
+  {% block styles %} {% endblock %}
+  <script type="text/javascript">
+    var user = '{{request.user}}'
 
+    function getToken(name) {
+
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getToken('csrftoken');
+
+    function getCookie(name){
+      // split cookie string and get all individual name=value pairs in a string
+      var cookieArr = document.cookie.split(";");
+
+      // loop through the array element
+      for (var i = 0; i < cookieArr.length ; i++){
+        var cookiePair = cookieArr[i].split("=");
+
+        /* removing white space from the cookie name
+        and compair it with the given string
+        */
+        if (name == cookiePair[0].trim()){
+          //decode the cookie value and return
+          return decodeURIComponent(cookiePair[1]);
+        }
+
+      }
+      //return null if not found
+      return null;
+    }
+
+    var cart = JSON.parse(getCookie('cart'))
+    if (cart == undefined){
+      cart = {}
+      console.log('cart was created...')
+      document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+    }
+    console.log('cart:' , cart)
+  </script>
 </head>
 
 <body>
@@ -46,11 +96,64 @@
         <span class="d-none d-lg-block">{{title }}</span>
       </a>
     </div><!-- End Logo -->
+    
+    <i class="bi bi-list toggle-sidebar-btn"></i>
 
   </header><!-- End Header -->
-  
-  
+  <!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+ 
+  {% if request.user.is_staff %}
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <li class="nav-item">
+      <a class="nav-link " href="{% url 'index'%}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
 
+    <li class="nav-item"></li>
+    <a class="nav-link collapsed" href="{% url 'leads_warmup_page' %}">
+        <i class="bi bi-arrow-clockwise"></i>
+        <span>customer follow-up</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-item"></li>
+      <a class="nav-link collapsed" href="{% url 'products' %}">
+        <i class="bi bi-house"></i>
+        <span>Store</span>
+      </a>
+    </li><!-- End products  Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-chat-dots  "></i><span>Customers Chats</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{% url 'chat_lists' %}">
+            <i class="bi bi-check"></i><span>Chats Lists</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'write_message' %}">
+            <i class="bi bi-check"></i><span>Write Message</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End customers Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="">
+        <i class="bi bi-question-circle"></i>
+        <span>F.A.Q</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
+  </ul>
+  {% endif %}
+
+</aside><!-- End Sidebar-->
   {% block content %}
 
   {% endblock %}
@@ -99,7 +202,6 @@
   </script>
 
 <script src="{% static 'date-time-phone/jquery-input-mask-phone-number.min.js' %}"></script> 
-
 <script>
   //(xxx) xxx-xxxx format code
   $(document).ready(function () {
@@ -108,6 +210,6 @@
       });   
   });
   </script>
-
+{% block script %} {% endblock %}
 </body>
 </html>

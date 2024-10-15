@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block title%}cart{%endblock title%}
+{% block content %}
+
+<div class="row col-lg-12 mt-5 p-lg-5 " style="color: black; margin-top: 300px;">
+    <div class="mt-5 p-lg-5" >
+
+    </div>
+    <div class="overflow-auto float justify-content-center align-items-center">
+        <div class="col-lg-12">
+            <div class="box-element px-3 py-4">
+              <hr/>
+              <p><strong>Rather than signing up and logging in to have access</p></strong></p>
+              <p><strong>You can request access by simply sending requseting access to this number {{whatsapp.whatsapp_number}} through whatsaap </strong></p>
+              <a style="margin:5px; text-align: center; align-items: center; float: right;" class="btn btn-success" href="https://wa.me/{{whatsapp.whatsapp_number}}/?text=hello" title="request access through whatsapp">click here to request access <span class="icon-whatsapp "></span></a>
+              <p><strong> or seek help at the counter</strong></p>
+              
+            </div>
+    
+        </div>
+    </div>
+</div>
+{% endblock content %}

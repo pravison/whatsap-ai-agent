@@ -2,7 +2,7 @@ from django.contrib import admin
 from django_tenants.admin import TenantAdminMixin
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from .models import Client, Domain
+from .models import Client, Domain, FAQ
 
 User = get_user_model()
 
@@ -35,3 +35,4 @@ class ClientAdmin(TenantAdminMixin, admin.ModelAdmin):
                     password='defaultpassword123',         # Set a default password
                 )
 
+admin.site.register(FAQ)
