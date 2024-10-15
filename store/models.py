@@ -6,6 +6,16 @@ from PIL import Image, ImageDraw, ImageFont
 import json
 from tinymce.models import HTMLField
 
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from whatsapp.settings import BASE_DIR
+import environ
+import os
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+VERCEL_BLOB_URL = env('VERCEL_BLOB_URL')
+
 # Create your models here.
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -76,7 +86,22 @@ class Product(models.Model):
         # saving the final image
         buffer = BytesIO()
         new_img.save(buffer, 'PNG')
-        self.qr_code.save(f'{self.name}_qr.png', File(buffer), save=False)
+        uploaded_file=self.qr_code.save(f'{self.name}_qr.png', File(buffer), save=False)
+
+        # Save the product photo locally (optional step if you need local storage as well)
+        local_file_path = os.path.join('media', uploaded_file.name)
+
+        # Save the uploaded product photo locally
+        with default_storage.open(local_file_path, 'wb+') as destination:
+            for chunk in uploaded_file.chunks():
+                destination.write(chunk)
+
+        # Construct the public URL for the product photo in Vercel Blob
+        photo_url = os.path.join(VERCEL_BLOB_URL , uploaded_file.name)  # Construct the public URL
+
+        # Update the object with the product photo's URL
+        self.qr_code = photo_url
+    
         self.save()
 
     def save(self, *args, **kwargs):
