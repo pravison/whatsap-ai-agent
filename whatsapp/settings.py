@@ -190,7 +190,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 VERCEL_BLOB_URL = env('VERCEL_BLOB_URL')
-MEDIA_URL = f'{VERCEL_BLOB_URL}media/'
+MEDIA_URL = f'{VERCEL_BLOB_URL}'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
